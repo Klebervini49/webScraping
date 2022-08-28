@@ -1,0 +1,6 @@
+node_modules/
+**/sessions
+yarn.lock
+*.env
+*.env.example
+dist/
