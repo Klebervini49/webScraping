@@ -4,7 +4,6 @@ import puppeteer from 'puppeteer';
 const site =
   'https://www3.mackenzie.br/processos/geraProcesso.php?p=oSYPgF5==oCLn4LMzjwDNLY0PjUtzeCLsjCUmPYND7LhmeURNgn3njnBzewLPvnCFvUZxCYysBeIntQCPqTCLLekHveBnjYgD7L';
 var dataFinal: any;
-var foto: any;
 
 function execute(message: Message): void {
   async (foto: any) => {
@@ -53,18 +52,24 @@ function execute(message: Message): void {
       if (att === 'REQUERIMENTO EM ANDAMENTO')
         return (dataFinal = `${att} - AINDA NADA 😡 `);
       else if (att !== 'REQUERIMENTO EM ANDAMENTO')
-        return (dataFinal = `${att} - Houve  uma mudança 😍\n\n recomendo entrar no site (https://www3.mackenzie.br/processos/geraProcesso.php?p=oSYPgF5==oCLn4LMzjwDNLY0PjUtzeCLsjCUmPYND7LhmeURNgn3njnBzewLPvnCFvUZxCYysBeIntQCPqTCLLekHveBnjYgD7L) `);
+        return (dataFinal = `${att}\n- Houve  uma mudança 😍\n\nRecomendo entrar no site (https://www3.mackenzie.br/processos/geraProcesso.php?p=oSYPgF5==oCLn4LMzjwDNLY0PjUtzeCLsjCUmPYND7LhmeURNgn3njnBzewLPvnCFvUZxCYysBeIntQCPqTCLLekHveBnjYgD7L) `);
     })().then((r) => {
       console.log(r);
+      try {
+        if (!dataFinal) {
+          console.log('!!error');
+        } else {
+          message.reply(dataFinal);
+          const media = MessageMedia.fromFilePath('./screenshot.png');
+          message.reply(media);
+        }
+      } catch (errro) {
+        console.log(errro);
+      }
+
       return r;
     });
   });
-  if (!dataFinal) {
-  } else {
-    message.reply(dataFinal);
-    const media = MessageMedia.fromFilePath('./screenshot.png');
-    message.reply(media);
-  }
 }
 
 export default {
